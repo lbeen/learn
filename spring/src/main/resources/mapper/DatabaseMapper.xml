@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lbeen.spring.sys.mapper.DatabaseMapper">
+    <sql id="where">
+        <if test="dbDesc != null">
+            and dbDesc like '%${dbDesc}%'
+        </if>
+        <if test="dbType != null">
+            and dbType = #{dbType}
+        </if>
+        <if test="used != null">
+            and used = #{used}
+        </if>
+    </sql>
+
+    <select id="count" resultType="Integer" parameterType="map">
+        select count(1) from t_database
+        <where>
+            <include refid="where"/>
+        </where>
+    </select>
+
+    <select id="selectPage" resultType="database" parameterType="map">
+        select * from t_database
+        <where>
+            <include refid="where"/>
+        </where>
+        limit #{skip},#{limit}
+    </select>
+
+    <select id="selectOne" resultType="database" parameterType="String">
+        select * from t_database where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="database">
+        insert into t_database
+        (id,ip,port,dbType,dbName,dbDesc,used)
+        values
+        (#{id},#{ip},#{port},#{dbType},#{dbName},#{dbDesc},#{used})
+    </insert>
+
+    <update id="update" parameterType="database">
+        update t_database
+        <set>
+            <if test="ip != null">
+                ip=#{ip},
+            </if>
+            <if test="port != null">
+                port=#{port},
+            </if>
+            <if test="dbType != null">
+                dbType=#{dbType},
+            </if>
+            <if test="dbName != null">
+                dbName=#{dbName},
+            </if>
+            <if test="dbDesc != null">
+                dbDesc=#{dbDesc},
+            </if>
+            <if test="used != null">
+                used=#{used},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from t_database where id = #{id}
+    </delete>
+
+    <select id="getUsedMongoDbs" resultType="database">
+         select * from t_database where dbType='mongo' and used='1'
+    </select>
+
+    <select id="getUsedMongoTables" resultType="table">
+        select t.* from t_table t join t_database d on t.dbId=d.id where d.dbType='mongo' and d.used='1'
+    </select>
+</mapper>

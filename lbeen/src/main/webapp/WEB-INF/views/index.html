@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="${base}/common/bootstrap/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="${base}/common/jquery/jquery-3.1.1.js"></script>
+    <script src="${base}/common/bootstrap/js/bootstrap.js"></script>
+    <script src="${base}/common/lbeen/alert.js"></script>
+    <script>
+        $(function () {
+            //
+            var navHeight = $('#menuNav').height();
+            var $window = $(window);
+            $('#placeholder').css('height', navHeight);
+            $('#stage').css('min-width',$window.width()).css('min-height',$window.height() - navHeight - 5);
+
+            $.getJSON('${base}/module/getModules',null,function (data) {
+                if (data.code == 0){
+                    var obj = data.data;
+                    for (var i = 0, len = obj.length; i < len; i++){
+                        var module1 = obj[i];
+                        var childs = module1.childs;
+                        var html;
+                        if (childs && childs.length == 0){
+                            html = '<li><a onclick="stageLoad(\'' + module1.element.url + '\')">' + module1.element.name + '</a></li>';
+                        } else {
+                            html = '<li class="dropdown">' +
+                                        '<a class="dropdown-toggle" data-toggle="dropdown" role="button"' +
+                                            'aria-haspopup="true" aria-expanded="false">' +
+                                        module1.element.name + '<span class="caret"></span></a>' +
+                                        '<ul class="dropdown-menu">';
+                            for (var j = 0, cLen = childs.length; j < len; j++){
+                                html += '<li><a onclick="stageLoad(\'' + childs[j].element.url + '\')">' + childs[j].element.name + '</a></li>';
+                            }
+                            html += '</ul></li>';
+                        }
+                        $('#menu').append(html);
+                    }
+                } else {
+                    alert(data.msg);
+                }
+            });
+
+            $('#xgmm').on('click', function () {
+//                $("#myModal").modal();
+//                $.lbeen.confirm();
+                var option = {
+                    url : '${base}/xgmm',
+                    title : '修改密码'
+                };
+                $.lbeen.content(option);
+            });
+        });
+
+        function stageLoad(url) {
+            $('#stage').attr('src', '${base}' + url);
+        }
+    </script>
+</head>
+<body>
+<nav id="menuNav" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">首页</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul id="menu" class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <!--<li><a href="#about">About</a></li>-->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Dropdown <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="">Action</a></li>
+                        <li><a href="">Another action</a></li>
+                        <li><a href="">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="">Separated link</a></li>
+                        <li><a href="">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">欢迎你，${obj.user.xm}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a id="xgmm">修改密码</a></li>
+                        <!--<li>-->
+                            <!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">-->
+                                <!--Launch demo modal-->
+                            <!--</button>-->
+                        <!--</li>-->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="placeholder"></div>
+<iframe id="stage" frameborder="3" marginheight=0 marginwidth=0></iframe>
+
+</body>
+</html>

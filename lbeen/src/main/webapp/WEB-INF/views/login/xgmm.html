@@ -1,0 +1,11 @@
+<div class="container">
+    <form class="form-signin" data-role="form" id="form" action="${base}/loginin" method="post"
+          data-afterSubmit="afterSubmit" style="max-width: 330px;">
+        <label class="sr-only">用户名</label>
+        <input type="text" class="form-control" name="yhm" value="${obj.user.yhm}" readonly>
+        <label for="mm" class="sr-only">密码</label>
+        <input id="mm" type="password" class="form-control" placeholder="密码"
+               data-validate="{required:true,intOrEnglish:true,maxlength:10,minlength:3}" name="mm">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    </form>
+</div>

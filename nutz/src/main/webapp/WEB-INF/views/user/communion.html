@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>游戏</title>
+    <link href="${base}/common/bootstrap/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <script src="${base}/common/jquery/jquery-3.1.1.js"></script>
+    <script src="${base}/common/bootstrap/js/bootstrap.js"></script>
+    <script src="${base}/js/game/game2048.js"></script>
+    <script>
+        var RECIVER;
+        var ws;
+
+        $(function () {
+            ws = new WebSocket("ws://" + window.location.host + "/nutz/websocket");
+            ws.onmessage = function (event) {
+                $('#msg').append('<div>' + event.data + '</div>');
+            };
+        });
+
+        function selectReciver(reciver) {
+            RECIVER = reciver;
+        }
+
+        function send() {
+            if (RECIVER) {
+                var content = $('#content').val();
+                if (content) {
+                    var msg = {
+                        content: '${obj.user.xm}:' + content,
+                        receiverId: RECIVER
+                    };
+                    ws.send(JSON.stringify(msg));
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div style="width: 500px;height: 500px;border: black" id="msg"></div>
+<div>
+    <div class="dropdown">
+        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            接收者<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dLabel">
+            <li><a onclick="selectReciver('4FF9B3B2CC8D972CE050007F01002665')">admin</a></li>
+            <li><a onclick="selectReciver('BD5D73440C834583B1D3F16AFCD0E7DD')">user2</a></li>
+            <li><a onclick="selectReciver('B9A9E7AA3E334B6FBB3D9F7D2D82AADF')">user3</a></li>
+        </ul>
+    </div>
+    <textarea id="content"></textarea>
+    <button type="button" class="btn btn-default" onclick="send()">发送</button>
+</div>
+</body>
+</html>

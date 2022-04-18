@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="database" type="com.lbeen.spring.sys.bean.Database"/>
+        <typeAlias alias="table" type="com.lbeen.spring.sys.bean.Table"/>
+        <typeAlias alias="menu" type="com.lbeen.spring.sys.bean.Menu"/>
+        <typeAlias alias="dic" type="com.lbeen.spring.sys.bean.Dic"/>
+        <typeAlias alias="tableColumn" type="com.lbeen.spring.sys.bean.TableColumn"/>
+    </typeAliases>
+</configuration>

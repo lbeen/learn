@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>游戏</title>
+    <link href="${base}/common/bootstrap/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="${base}/common/jquery/jquery-3.1.1.js"></script>
+    <script src="${base}/js/game/game2048.js"></script>
+    <script>
+        $(function () {
+            $(window).on('keydown',function (event) {
+                switch (event.keyCode){
+                    case 38:
+                        up();
+                        break;
+                    case 40:
+                        down();
+                        break;
+                    case 37:
+                        left();
+                        break;
+                    case 39:
+                        right();
+                        break;
+                }
+            });
+        });
+        function up(){
+            var game2048 = $('#2048').data('game2048');
+            game2048.up();
+            $('#grade').html(game2048.grade);
+        }
+
+        function down(){
+            var game2048 = $('#2048').data('game2048');
+            game2048.down();
+            $('#grade').html(game2048.grade);
+        }
+
+        function left(){
+            var game2048 = $('#2048').data('game2048');
+            game2048.left();
+            $('#grade').html(game2048.grade);
+        }
+
+        function right(){
+            var game2048 = $('#2048').data('game2048');
+            game2048.right();
+            $('#grade').html(game2048.grade);
+        }
+    </script>
+</head>
+<body>
+<div id="grade" style="width: 50px;height: 50px;font-size: x-large;text-align: center">0</div>
+<div class="game2048" id="2048"></div>
+<div>
+    <button type="button" class="btn btn-default" onclick="up()">up</button>
+    <button type="button" class="btn btn-default" onclick="down()">down</button>
+    <button type="button" class="btn btn-default" onclick="left()">left</button>
+    <button type="button" class="btn btn-default" onclick="right()">right</button>
+</div>
+</body>
+</html>

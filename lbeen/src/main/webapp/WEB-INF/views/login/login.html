@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+
+    <link href="${base}/common/bootstrap/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/css/login/login.css" rel="stylesheet" type="text/css" />
+
+    <script src="${base}/common/jquery/jquery-3.1.1.js"></script>
+    <script src="${base}/common/form/jquery.metadata.js"></script>
+    <script src="${base}/common/form/jquery.validate.js"></script>
+    <script src="${base}/common/form/jquery.validate.extent.js"></script>
+    <script src="${base}/common/form/messages_zh.js"></script>
+    <script src="${base}/common/form/jquery.form.js"></script>
+    <script src="${base}/common/bootstrap/js/bootstrap.js"></script>
+    <script src="${base}/common/lbeen/alert.js"></script>
+
+    <script>
+        function afterSubmit(data) {
+            if (data.code == 0){
+                window.location.href = "${base}" + data.data;
+            } else {
+                $.lbeen.alert(data.msg);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form class="form-signin" data-role="form" id="form" action="${base}/loginin" method="post" data-afterSubmit="afterSubmit">
+            <h2 class="form-signin-heading">请登录192.168.1.119</h2>
+            <label for="yhm" class="sr-only">用户名</label>
+            <input id="yhm" type="input" class="form-control" placeholder="用户名"
+                   data-validate="{required:true,intOrEnglish:true,maxlength:10,minlength:3}" name="yhm">
+            <label for="mm" class="sr-only">密码</label>
+            <input id="mm" type="password" class="form-control" placeholder="密码"
+                   data-validate="{required:true,intOrEnglish:true,maxlength:10,minlength:3}" name="mm">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        </form>
+    </div>
+</body>
+</html>
